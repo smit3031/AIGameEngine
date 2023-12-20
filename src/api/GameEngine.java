@@ -3,7 +3,7 @@ package api;
 import Boards.TicTacToeBoard;
 import Game.*;
 
-public class GameEngine {
+public class GameEngine{
 
     public Board start(String type) {
         if (type.equals("TicTacToe")){
