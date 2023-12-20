@@ -13,13 +13,7 @@ public class GameEngine{
         }
     }
 
-    public void move(Board board, Player player, Move move){
-        if (board instanceof TicTacToeBoard){
-            ((TicTacToeBoard) board).setCell(move.getCell(), player);
-        }else{
-            throw new IllegalArgumentException("Board type not valid!");
-        }
-    }
+
 
     public GameResult isComplete(Board board) {
 
@@ -105,17 +99,6 @@ public class GameEngine{
         }
 
 
-        return null;
-    }
-
-    public Move suggestMove(Player player, TicTacToeBoard board) {
-        for (int i=0; i<3; i++){
-            for (int j=0; j<3; j++){
-                if (board.getCell(i, j) == null){
-                    return new Move(new Cell(i, j));
-                }
-            }
-        }
         return null;
     }
 }

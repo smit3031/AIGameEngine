@@ -2,9 +2,8 @@ package Boards;
 
 import Game.Board;
 import Game.Cell;
+import Game.Move;
 import Game.Player;
-
-import java.util.Arrays;
 
 public class TicTacToeBoard extends Board {
     String[][] cells = new String[3][3];
@@ -30,5 +29,14 @@ public class TicTacToeBoard extends Board {
 
     public void setCell(Cell cell, Player player) {
         cells[cell.getRow()][cell.getCol()] = player.getSymbol();
+    }
+
+    @Override
+    public void move(Board board, Move move){
+        if (board instanceof TicTacToeBoard){
+            ((TicTacToeBoard) board).setCell(move.getCell(), move.getPlayer());
+        }else{
+            throw new IllegalArgumentException("Board type not valid!");
+        }
     }
 }

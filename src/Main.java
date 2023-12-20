@@ -1,8 +1,8 @@
 import Boards.TicTacToeBoard;
 import Game.Cell;
-import Game.GameResult;
 import Game.Move;
 import Game.Player;
+import api.AIEngine;
 import api.GameEngine;
 
 import java.util.Scanner;
@@ -12,6 +12,7 @@ public class Main {
     public static void main(String[] args) {
 
         GameEngine gameEngine = new GameEngine();
+        AIEngine aiEngine = new AIEngine();
         TicTacToeBoard board = (TicTacToeBoard) gameEngine.start("TicTacToe");
 
         int row, col;
@@ -28,12 +29,12 @@ public class Main {
             row = scanner.nextInt();
             col = scanner.nextInt();
 
-            Move humanMove = new Move(new Cell(row, col));
-            gameEngine.move(board, human, humanMove);
+            Move humanMove = new Move(new Cell(row, col), human);
+            board.move(board, humanMove);
 
             if (!gameEngine.isComplete(board).isOver()){
-                Move compMove = gameEngine.suggestMove(computer, board);
-                gameEngine.move(board, computer, compMove);
+                Move compMove = aiEngine.suggestMove(computer, board);
+                board.move(board, compMove);
             }
 
 
