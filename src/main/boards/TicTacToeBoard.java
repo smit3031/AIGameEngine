@@ -1,9 +1,9 @@
 package Boards;
 
-import Game.Board;
-import Game.Cell;
-import Game.Move;
-import Game.Player;
+import GameState.Board;
+import GameState.Cell;
+import GameState.Move;
+import GameState.Player;
 
 public class TicTacToeBoard extends Board {
     String[][] cells = new String[3][3];

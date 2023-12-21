@@ -1,25 +1,31 @@
-import Boards.TicTacToeBoard;
-import Game.Cell;
-import Game.Move;
-import Game.Player;
-import api.AIEngine;
-import api.GameEngine;
+package test.java.main;
+
+
+import main.boards.TicTacToeBoard;
+import main.game.Cell;
+import main.game.Move;
+import main.game.Player;
+import main.api.AIEngine;
+import main.api.GameEngine;
+import main.api.RuleEngine;
+
 
 import java.util.Scanner;
 
-public class Main {
+public class GamePlayTest {
 
-    public static void main(String[] args) {
+    public void play() {
 
         GameEngine gameEngine = new GameEngine();
         AIEngine aiEngine = new AIEngine();
+        RuleEngine ruleEngine = new RuleEngine();
         TicTacToeBoard board = (TicTacToeBoard) gameEngine.start("TicTacToe");
 
         int row, col;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Game started");
 
-        while(!gameEngine.isComplete(board).isOver()){
+        while(!ruleEngine.getState(board).isOver()){
             Player computer = new Player("O");
             Player human = new Player("X");
 
@@ -32,7 +38,7 @@ public class Main {
             Move humanMove = new Move(new Cell(row, col), human);
             board.move(board, humanMove);
 
-            if (!gameEngine.isComplete(board).isOver()){
+            if (!ruleEngine.getState(board).isOver()){
                 Move compMove = aiEngine.suggestMove(computer, board);
                 board.move(board, compMove);
             }
@@ -40,7 +46,8 @@ public class Main {
 
         }
 
-        System.out.println("GameResult : " + gameEngine.isComplete(board).toString() + "\n");
+        System.out.println("GameResult : " + ruleEngine.getState(board).toString() + "\n");
         System.out.println(board);
     }
+
 }

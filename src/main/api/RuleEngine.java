@@ -1,21 +1,12 @@
 package api;
 
 import Boards.TicTacToeBoard;
-import Game.*;
+import GameState.Board;
+import GameState.GameState;
 
-public class GameEngine{
+public class RuleEngine {
 
-    public Board start(String type) {
-        if (type.equals("TicTacToe")){
-            return new TicTacToeBoard();
-        }else{
-            throw new IllegalArgumentException("Board type not valid!");
-        }
-    }
-
-
-
-    public GameResult isComplete(Board board) {
+    public GameState getState(Board board) {
 
         if (board instanceof TicTacToeBoard){
 
@@ -33,11 +24,11 @@ public class GameEngine{
                         break;
                     }
                 }
-                
+
                 if (rowComplete) break;
             }
-            
-            if (rowComplete) return new GameResult(true, firstSymbol);
+
+            if (rowComplete) return new GameState(true, firstSymbol);
 
 
             boolean colComplete = true;
@@ -55,7 +46,7 @@ public class GameEngine{
                 if (colComplete) break;
             }
 
-            if (colComplete) return new GameResult(true, firstSymbol);
+            if (colComplete) return new GameState(true, firstSymbol);
 
 
             firstSymbol = toeBoard.getCell(0, 0);
@@ -67,7 +58,7 @@ public class GameEngine{
                 }
             }
 
-            if (diaComplete) return new GameResult(true, firstSymbol);
+            if (diaComplete) return new GameState(true, firstSymbol);
 
             firstSymbol = toeBoard.getCell(2, 0);
             boolean revDiaComplete = firstSymbol!=null;
@@ -78,7 +69,7 @@ public class GameEngine{
                 }
             }
 
-            if (revDiaComplete) return new GameResult(true, firstSymbol);
+            if (revDiaComplete) return new GameState(true, firstSymbol);
 
             int filledCells = 0;
 
@@ -91,9 +82,9 @@ public class GameEngine{
             }
 
             if (filledCells == 9){
-                return new GameResult(true, "-");
+                return new GameState(true, "-");
             }else{
-                return new GameResult(false, "-");
+                return new GameState(false, "-");
             }
 
         }

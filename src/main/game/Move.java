@@ -1,4 +1,4 @@
-package Game;
+package main.GameState;
 
 public class Move {
 

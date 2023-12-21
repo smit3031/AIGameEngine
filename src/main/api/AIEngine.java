@@ -1,9 +1,9 @@
 package api;
 
 import Boards.TicTacToeBoard;
-import Game.Cell;
-import Game.Move;
-import Game.Player;
+import GameState.Cell;
+import GameState.Move;
+import GameState.Player;
 
 public class AIEngine {
 
