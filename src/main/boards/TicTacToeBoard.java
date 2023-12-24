@@ -1,11 +1,11 @@
-package Boards;
+package main.boards;
 
-import GameState.Board;
-import GameState.Cell;
-import GameState.Move;
-import GameState.Player;
+import main.game.Board;
+import main.game.Cell;
+import main.game.Move;
+import main.game.Player;
 
-public class TicTacToeBoard extends Board {
+public class TicTacToeBoard implements Board {
     String[][] cells = new String[3][3];
 
     public String getCell(int row, int col) {
@@ -32,11 +32,31 @@ public class TicTacToeBoard extends Board {
     }
 
     @Override
-    public void move(Board board, Move move){
-        if (board instanceof TicTacToeBoard){
-            ((TicTacToeBoard) board).setCell(move.getCell(), move.getPlayer());
-        }else{
-            throw new IllegalArgumentException("Board type not valid!");
+    public void move(Move move) {
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+
+        // Check if the cell is null before updating
+        if (cells[row][col] == null) {
+            cells[row][col] = move.getPlayer().getSymbol();
         }
     }
+
+
+    @Override
+    public TicTacToeBoard copy(Board board) {
+        if (!(board instanceof TicTacToeBoard)) {
+            throw new IllegalArgumentException("Board type not valid!");
+        }
+
+        TicTacToeBoard originalBoard = (TicTacToeBoard) board;
+        TicTacToeBoard copiedBoard = new TicTacToeBoard();
+
+        for (int i = 0; i < 3; i++) {
+            System.arraycopy(originalBoard.cells[i], 0, copiedBoard.cells[i], 0, 3);
+        }
+
+        return copiedBoard;
+    }
+
 }

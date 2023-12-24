@@ -1,4 +1,4 @@
-package main.GameState;
+package main.game;
 
 public class Cell {
     private int row, col;

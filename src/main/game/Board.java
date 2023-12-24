@@ -1,5 +1,7 @@
-package main.GameState;
+package main.game;
 
-public abstract class Board {
-    public abstract void move(Board board, Move move);
+public interface Board {
+    public void move(Move move);
+
+    public Board copy(Board board);
 }

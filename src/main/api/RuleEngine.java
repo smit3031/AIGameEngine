@@ -1,8 +1,8 @@
-package api;
+package main.api;
 
-import Boards.TicTacToeBoard;
-import GameState.Board;
-import GameState.GameState;
+import main.boards.TicTacToeBoard;
+import main.game.Board;
+import main.game.GameState;
 
 public class RuleEngine {
 
@@ -60,7 +60,7 @@ public class RuleEngine {
 
             if (diaComplete) return new GameState(true, firstSymbol);
 
-            firstSymbol = toeBoard.getCell(2, 0);
+            firstSymbol = toeBoard.getCell(0, 2);
             boolean revDiaComplete = firstSymbol!=null;
             for (int j = 1; j<3; j++){
                 if (firstSymbol!=null && !firstSymbol.equals(toeBoard.getCell(j, 2-j))){
@@ -88,8 +88,6 @@ public class RuleEngine {
             }
 
         }
-
-
         return null;
     }
 }

@@ -1,15 +1,16 @@
-import Boards.TicTacToeBoard;
-import GameState.Cell;
-import GameState.Move;
-import GameState.Player;
-import api.AIEngine;
-import api.GameEngine;
-import api.RuleEngine;
+package main;
+
+import main.boards.TicTacToeBoard;
+import main.game.Cell;
+import main.game.Move;
+import main.game.Player;
+import main.api.AIEngine;
+import main.api.GameEngine;
+import main.api.RuleEngine;
 
 import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args) {
 
         GameEngine gameEngine = new GameEngine();
@@ -32,14 +33,12 @@ public class Main {
             col = scanner.nextInt();
 
             Move humanMove = new Move(new Cell(row, col), human);
-            board.move(board, humanMove);
+            board.move(humanMove);
 
             if (!ruleEngine.getState(board).isOver()){
                 Move compMove = aiEngine.suggestMove(computer, board);
-                board.move(board, compMove);
+                board.move(compMove);
             }
-
-
         }
 
         System.out.println("GameResult : " + ruleEngine.getState(board).toString() + "\n");

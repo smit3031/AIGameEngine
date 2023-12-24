@@ -1,4 +1,4 @@
-package test.java.main;
+package main;
 
 
 import main.boards.TicTacToeBoard;
@@ -8,46 +8,121 @@ import main.game.Player;
 import main.api.AIEngine;
 import main.api.GameEngine;
 import main.api.RuleEngine;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 
 import java.util.Scanner;
 
 public class GamePlayTest {
 
-    public void play() {
+    GameEngine gameEngine;
+    RuleEngine ruleEngine;
+    AIEngine aiEngine;
+    Player computer;
+    Player human;
+    TicTacToeBoard board;
 
-        GameEngine gameEngine = new GameEngine();
-        AIEngine aiEngine = new AIEngine();
-        RuleEngine ruleEngine = new RuleEngine();
-        TicTacToeBoard board = (TicTacToeBoard) gameEngine.start("TicTacToe");
+    @Before
+    public void setup(){
+        gameEngine = new GameEngine();
+        aiEngine = new AIEngine();
+        ruleEngine = new RuleEngine();
 
-        int row, col;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Game started");
+        computer = new Player("O");
+        human = new Player("X");
 
-        while(!ruleEngine.getState(board).isOver()){
-            Player computer = new Player("O");
-            Player human = new Player("X");
+        board = (TicTacToeBoard) gameEngine.start("TicTacToe");
+    }
 
-            System.out.println("Make your move!");
-            System.out.println(board);
 
-            row = scanner.nextInt();
-            col = scanner.nextInt();
+    @Test
+    public void checkRowWin() {
+        int humanMoves[][] = {{1,0}, {1,1}, {1,2}};
+        int computerMoves[][] = {{0,0}, {2,2}, {0,1}};
 
-            Move humanMove = new Move(new Cell(row, col), human);
-            board.move(board, humanMove);
+        playGame(humanMoves, computerMoves);
 
-            if (!ruleEngine.getState(board).isOver()){
-                Move compMove = aiEngine.suggestMove(computer, board);
-                board.move(board, compMove);
+        Assert.assertTrue(ruleEngine.getState(board).isOver());
+        Assert.assertEquals(ruleEngine.getState(board).getWinner(), "X");
+    }
+
+
+    @Test
+    public void checkColWin() {
+        int humanMoves[][] = {{1,1}, {0,1}, {2,1}};
+        int computerMoves[][] = {{0,0}, {2,2}, {1,2}};
+
+        playGame(humanMoves, computerMoves);
+
+        Assert.assertTrue(ruleEngine.getState(board).isOver());
+        Assert.assertEquals(ruleEngine.getState(board).getWinner(), "X");
+    }
+
+    @Test
+    public void checkDiaWin() {
+        int humanMoves[][] = {{0,0}, {1,1}, {2,2}};
+        int computerMoves[][] = {{0,1}, {0,2}, {2,0}};
+
+        playGame(humanMoves, computerMoves);
+
+        Assert.assertTrue(ruleEngine.getState(board).isOver());
+        Assert.assertEquals(ruleEngine.getState(board).getWinner(), "X");
+    }
+
+    @Test
+    public void checkRevDiaWin() {
+        int humanMoves[][] = {{2,0}, {1,1}, {0,2}};
+        int computerMoves[][] = {{0,0}, {2,2}, {0,1}};
+
+        playGame(humanMoves, computerMoves);
+
+        Assert.assertTrue(ruleEngine.getState(board).isOver());
+        Assert.assertEquals(ruleEngine.getState(board).getWinner(), "X");
+    }
+
+    @Test
+    public void checkComputerWin() {
+        int humanMoves[][] = {{1,0}, {2,1}, {1,2}};
+        int computerMoves[][] = {{0,0}, {2,2}, {1,1}};
+
+        playGame(humanMoves, computerMoves);
+
+        Assert.assertTrue(ruleEngine.getState(board).isOver());
+        Assert.assertEquals(ruleEngine.getState(board).getWinner(), "O");
+    }
+
+    @Test
+    public void checkTie() {
+        int humanMoves[][] = {{1,1}, {2,2}, {0,1}, {1,0}, {2,0}};
+        int computerMoves[][] = {{0,0}, {0,2}, {2,1}, {1,2}};
+
+        playGame(humanMoves, computerMoves);
+
+        Assert.assertTrue(ruleEngine.getState(board).isOver());
+        Assert.assertEquals(ruleEngine.getState(board).getWinner(), "-");
+    }
+
+    private void playGame(int[][] humanMoves, int[][] compMoves) {
+        int movesCount = Math.max(humanMoves.length, compMoves.length);
+
+        for (int i = 0; i < movesCount; i++) {
+            if (i < humanMoves.length) {
+                int h_row = humanMoves[i][0];
+                int h_col = humanMoves[i][1];
+                Move humanMove = new Move(new Cell(h_row, h_col), human);
+                board.move(humanMove);
             }
 
-
+            if (i < compMoves.length) {
+                int c_row = compMoves[i][0];
+                int c_col = compMoves[i][1];
+                Move compMove = new Move(new Cell(c_row, c_col), computer);
+                board.move(compMove);
+            }
         }
-
-        System.out.println("GameResult : " + ruleEngine.getState(board).toString() + "\n");
-        System.out.println(board);
     }
+
 
 }
